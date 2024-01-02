@@ -43,7 +43,7 @@ dftable <- dftable %>% filter(!str_detect(Label, "^START"))
 ###
 
 addNewColumn <- function(starttime, endtime, newcolnum, labelname) {
-  dfresponse[,newcolnum] <<- 0
+  dfresponse[,newcolnum] <<- NA
   names(dfresponse)[newcolnum] <<- labelname
   inx <- which(dfresponse$Time > starttime & dfresponse$Time < endtime)
   mininx <- min(inx)
@@ -79,4 +79,4 @@ for (i in 1:(numranges)) {
   starttime <- endtime
 }
 print("data processed and will be written to output.csv")
-write_csv(dfresponse, "output.csv")
+write_csv(dfresponse, "output.csv", na = "")
