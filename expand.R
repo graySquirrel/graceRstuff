@@ -1,6 +1,6 @@
 #install.packages("tidyverse")
 library("tidyverse")
-
+setwd("C:\\Users\\harra\\OneDrive\\Documents\\myography data\\graceRstuff")
 ### Read in files from current directory
 ### if they are there, dftable and dfresponse are made.
 ###
