@@ -1,6 +1,8 @@
 #install.packages("tidyverse")
 library("tidyverse")
-setwd("C:\\Users\\harra\\OneDrive\\Documents\\myography data\\graceRstuff")
+if (dir.exists("C:\\Users\\harra")) {
+  setwd("C:\\Users\\harra\\OneDrive\\Documents\\myography data\\graceRstuff")
+}
 ### Read in files from current directory
 ### if they are there, dftable and dfresponse are made.
 ###
@@ -11,7 +13,7 @@ responsefound <- FALSE
 tablefound <- FALSE
 for (i in 1:length(filelist)) {
   filename <- filelist[i]
-  if (filename == "response.csv") {
+  if (grepl("^[0-9]{8}.csv",filename)) {
     print("response.csv found, loading...")
     dfresponse <- read_csv(filename, skip_empty_rows = TRUE)
     responsefound <- TRUE
