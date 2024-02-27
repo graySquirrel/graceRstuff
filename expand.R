@@ -60,9 +60,9 @@ for (i in 1:(numranges)) {
 }
 ## now we got start and end count.  Start removing rows we dont care about
 # remove all stuff before first START
-dft1 <- dft1[dft1$StartCount != 0,]
+#dft1 <- dft1[dft1$StartCount != 0,]
 # remove all stuff when start and end counts are same that is not a Yoda
-dft1 <- dft1 %>% filter(!(StartCount == EndCount & !str_detect(Label, "Yoda")))
+dft1 <- dft1 %>% filter(!(StartCount > 0 & StartCount == EndCount & !str_detect(Label, "Yoda")))
 dft1 %>% print(n=Inf)
 
 # put it back into dftable
@@ -73,11 +73,13 @@ dftable <- dft1
 ###
 
 addNewColumn <- function(starttime1, endtime1, starttime2, endtime2, newcolnum, labelname) {
+  if (length(starttime1) == 0) {starttime1 <- starttime2}
+  if (length(endtime1) == 0) {endtime1 <- endtime2}
   dfresponse[,newcolnum] <<- NA
   names(dfresponse)[newcolnum] <<- labelname
-  print(paste("addnewcolumn", starttime1,endtime1,starttime2, endtime2, labelname))
+  print(paste("addnewcolumn", "st1",starttime1,"et1",endtime1,"st2",starttime2, "et2",endtime2, labelname))
   ## Only copy the data if its a real data (mmHg)
-  if (grepl("mmHg",labelname)) {
+  #if (grepl("mmHg",labelname)) {
     inx1 <- which(dfresponse$Time > starttime1 & dfresponse$Time < endtime1)
     mininx1 <- min(inx1)
     maxinx1 <- max(inx1)
@@ -91,8 +93,9 @@ addNewColumn <- function(starttime1, endtime1, starttime2, endtime2, newcolnum, 
       print("out of range times...ending early")
       break
     }
-    dfresponse[mininx1:maxinx1,newcolnum] <<- dfresponse[mininx2:(mininx2+inxdiff1),"Outer Diameter"]
-  }
+    dfresponse[mininx1:maxinx1,newcolnum] <<- dfresponse[mininx2:(mininx2+inxdiff1),"Outer Diameter"] 
+    dfresponse[which(dfresponse[newcolnum] > 300 | dfresponse[newcolnum] < 60), newcolnum] <<- NA
+  #}
 }
 ###
 ### For each time range in dftable, copy the response Outer Diameter values
@@ -117,7 +120,7 @@ for (i in 1:(numranges)) {
     endtime <- as.numeric(dftable[i+1,"Time (s)"])
   ### if row i starts with END, then it is an endtime, skip it.
   #if (!grepl("END",dftable[i,"Label"]) & !grepl("START",dftable[i,"Label"])) {
-    if (dftable[i, "StartCount"] == 1) {
+    if (dftable[i, "StartCount"] <= 1) {
       addNewColumn(starttime1=starttime, endtime1=endtime, 
                    starttime2=starttime, endtime2=endtime,
                    newcolnum=newcolnum, labelname=labelname)
@@ -135,5 +138,6 @@ for (i in 1:(numranges)) {
     starttime <- endtime
   }
 }
+names(dfresponse)[2] <- "Tone"
 print("data processed and will be written to output.csv")
 write_csv(dfresponse, "output.csv", na = "")
