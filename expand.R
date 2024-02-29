@@ -103,15 +103,16 @@ addNewColumn <- function(starttime1, endtime1, starttime2, endtime2, newcolnum, 
 ###
 numranges <- dim(dftable)[1]
 numrows <- dim(dfresponse)[1]
-#starttime <- 0
-#endtime <- as.numeric(dftable[1,1])
-#addNewColumn(starttime=0, endtime=endtime, newcolnum=3, labelname="startwash")
+starttime <- 0
+endtime <- as.numeric(dftable[1,1])
+addNewColumn(starttime1=0, endtime1=endtime, starttime2=0, endtime2=endtime, 
+             newcolnum=3, labelname="startwash")
 
-offset <- as.numeric(dftable[1,"Time (s)"])
-starttime <- offset
-#starttime <- endtime
-#newcolnum <- 4
-newcolnum <- 3
+#offset <- as.numeric(dftable[1,"Time (s)"])
+#starttime <- offset
+starttime <- endtime
+newcolnum <- 4
+#newcolnum <- 3
 for (i in 1:(numranges)) {
   print(i)
   # add new column, name it with Label name
@@ -138,6 +139,6 @@ for (i in 1:(numranges)) {
     starttime <- endtime
   }
 }
-names(dfresponse)[2] <- "Tone"
+#names(dfresponse)[2] <- "Tone"
 print("data processed and will be written to output.csv")
 write_csv(dfresponse, "output.csv", na = "")
