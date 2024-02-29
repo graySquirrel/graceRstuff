@@ -108,7 +108,7 @@ numrows <- dim(dfresponse)[1]
 starttime <- 0
 endtime <- as.numeric(dftable[1,1])
 addNewColumn(starttime1=0, endtime1=endtime, starttime2=0, endtime2=endtime, 
-             newcolnum=3, labelname="startwash")
+             newcolnum=3, labelname="Tone")
 
 #offset <- as.numeric(dftable[1,"Time (s)"])
 #starttime <- offset
