@@ -62,7 +62,9 @@ for (i in 1:(numranges)) {
 # remove all stuff before first START
 #dft1 <- dft1[dft1$StartCount != 0,]
 # remove all stuff when start and end counts are same that is not a Yoda
-dft1 <- dft1 %>% filter(!(StartCount > 0 & StartCount == EndCount & !str_detect(Label, "Yoda")))
+dft1 <- dft1 %>% filter(!(StartCount > 0 & StartCount == EndCount
+                          & !str_detect(Label, "Yoda")
+                          & !str_detect(Label, "END")))
 dft1 %>% print(n=Inf)
 
 # put it back into dftable
