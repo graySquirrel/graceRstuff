@@ -96,7 +96,7 @@ addNewColumn <- function(starttime1, endtime1, starttime2, endtime2, newcolnum, 
     break
   }
   dfresponse[mininx1:maxinx1,newcolnum] <<- dfresponse[mininx2:(mininx2+inxdiff1),"Inner Diameter"] 
-  dfresponse[which(dfresponse[newcolnum] > 300 | dfresponse[newcolnum] < 60), newcolnum] <<- NA
+  dfresponse[which(dfresponse[newcolnum] > 200 | dfresponse[newcolnum] < 1), newcolnum] <<- NA
   #}
 }
 ###
