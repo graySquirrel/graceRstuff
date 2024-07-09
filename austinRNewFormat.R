@@ -49,7 +49,7 @@ names(dftable)[names(dftable) == '#'] <- 'Time (s)'
 
 # Preprocess dftable to remove bits that I dont want to copy
 # Add a column to dftable put StartCount, which counts the number of Starts it's seen
-dft1 <- dftable[,c(1,2,5)]
+dft1 <- dftable[,c(1,2,3,5)]
 dft1["StartCount"] = 0
 dft1["EndCount"] = 0
 # loop through dftable and increment StartCount every time we see a START Label
